@@ -1,0 +1,23 @@
+services:
+    client:
+        image: nginx:1.21-alpine
+        restart: "always"
+        ports:
+              - 80:80
+        env_file:
+            - .env.public
+            - .env
+        volumes:
+            - "./browserClient:/usr/share/nginx/html"
+    validator:
+        image: node:16-alpine
+        restart: "always"
+        command: sh -c "yarn && node /code/app.js"
+        working_dir: /code
+        ports:
+            - 3000:3000
+        env_file:
+            - .env.public
+            - .env
+        volumes:
+            - "./validatorServer:/code"
