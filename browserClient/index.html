@@ -49,31 +49,31 @@
 <script>
 
 // validatorServer URL
-const validatorServerURL = "http://raspberrypi.local:3000/";
+const validatorServerURL = "http://localhost:3000/";
 
-// qrcode found  
+// qrcode found
 function onScanSuccess(decodedText, decodedResult) {
 
 	console.log("qrcode found: " + decodedText);
-	
+
 	// make a call to validatorServer
 	$.ajax({
 		url: validatorServerURL,
 		type: "get",
 		data: {"dgc" : decodedText},
-		
+
 		// server response
 		complete: function(jqXHR, textStatus) {
-		
+
 			// VALID
 			if(jqXHR.status == 200) $("#result").attr("class", "alert alert-success");
-			
+
 			// INVALID
 			else $("#result").attr("class", "alert alert-error");
-			
+
 			// display response
 			$('#result').html(jqXHR.responseText);
-		
+
 			// reset after 3 seconds
 			setTimeout(function() {
 				$("#result").attr("class", "alert");
@@ -87,11 +87,11 @@ function onScanFailure(error) {}
 
 // init library
 let html5QrcodeScanner = new Html5QrcodeScanner(
-	"reader", 
-	{ fps: 10, 
-	qrbox: 400 }, 
+	"reader",
+	{ fps: 10,
+	qrbox: 400 },
 	/* verbose= */ false);
-html5QrcodeScanner.render(onScanSuccess, onScanFailure);  
+html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
 </script>
  </body>
